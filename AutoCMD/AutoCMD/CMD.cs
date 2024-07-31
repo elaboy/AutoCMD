@@ -100,7 +100,7 @@ public class CMD
 
         List<string> filePaths = new();
 
-        var path = Path.Join(spectraBaseDirectory, setName);
+        var path = Path.Join(spectraBaseDirectory, setName+@"\");
 
         foreach (var directory in Directory.GetDirectories(path))
         {
