@@ -1,5 +1,9 @@
+from typing import List
+import matplotlib.container
+import matplotlib.figure
 import pandas as pd
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 from enum import Enum
 import os
@@ -79,7 +83,7 @@ class PSM:
         self.posterior_error_probability_q_value = row.get("PEP_QValue")
 
     @staticmethod
-    def get_all_psms(path:str):
+    def get_all_psms(path:str) -> List:
         all_psms_dataframe = pd.read_csv(os.path.join(path), sep="\t")
         rows = all_psms_dataframe.to_dict(orient='records')
         return [PSM(row) for row in rows]
@@ -145,7 +149,6 @@ class QuantifiedProteinGroup:
         self.best_peptide_score = row.get("Best Peptide Score")
         self.best_peptide_notch_q_value = row.get("Best Peptide Notch QValue")
 
-        
 class Results:
     def __init__(self, search_task_path:str) -> None:
         self.search_task_path = search_task_path
@@ -204,4 +207,19 @@ class Results:
             print("Error reading ExperimentalDesign.tsv file: ", e)
 
         return None
-    
+
+class Plot:
+    def __init__(self, bar_containers:List[matplotlib.container.BarContainer]) -> None:
+        self.figure, self.ax = plt.subplots()
+        self.bar_container_consumer(bar_containers)
+        plt.legend()
+        plt.plot()
+
+    def bar_container_consumer(self, bar_containers:List[matplotlib.container.BarContainer]) -> matplotlib.figure.Figure:
+        self.ax.add_container(bar_container for bar_container in bar_containers)
+
+    @staticmethod
+    def unique_full_sequence_bar_container(psms: List[PSM], label:str) -> matplotlib.container.BarContainer:
+        number_of_distinct_full_sequences = {psm.full_sequence for psm in psms}
+        return matplotlib.container.BarContainer(len(number_of_distinct_full_sequences), width=1, linewidth=0.7, label=label)
+
