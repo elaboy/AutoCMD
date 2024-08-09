@@ -9,79 +9,75 @@ from enum import Enum
 import os
 import sqlalchemy as sa
 from sqlalchemy.orm import Mapped, mapped_column, sessionmaker, declarative_base
+from sqlalchemy import Column, Integer, String, Float, Boolean
 import argparse
-
-parser = argparse.ArgumentParser(description="Visualize your results")
-
-parser.add_argument("search_task_directory", metavar="search_task_directory", type=str, help="enter the search task directory path")
-args = parser.parse_args()
-
 
 database = sa.create_engine('sqlite:///:memory:')
 Session = sessionmaker(bind=database)
-Base = declarative_base
+session = Session()
+Base = declarative_base()
 
 class PSM(Base):
     __tablename__ = "psms"
 
-    id : Mapped[int] = mapped_column(primary_key=True)
-    file_name : Mapped[str]
-    scan_number : Mapped[str]
-    scan_retention_time : Mapped[str]
-    number_of_experimental_peaks : Mapped[str]
-    total_ion_current : Mapped[str]
-    precursor_scan_number : Mapped[str]
-    precursor_charge : Mapped[str]
-    precursor_intensity : Mapped[str]
-    precursor_mz : Mapped[str]
-    precursor_mass : Mapped[str]
-    score : Mapped[str]
-    delta_score : Mapped[str]
-    notch : Mapped[str]
-    base_sequence : Mapped[str]
-    full_sequence : Mapped[str]
-    essential_sequence : Mapped[str]
-    ambiguity_level : Mapped[str]
-    psm_count_unambigous_less_than_one_percent_q_value : Mapped[str]
-    mods : Mapped[str]
-    mods_chemical_formula : Mapped[str]
-    mods_combined_chemical_formula : Mapped[str]
-    number_of_variable_mods : Mapped[str]
-    missed_cleavages : Mapped[str]
-    peptide_monoisotopic_mass : Mapped[str]
-    mass_difference_in_daltons : Mapped[str]
-    mass_difference_in_ppm : Mapped[str]
-    protein_accession : Mapped[str]
-    protein_name : Mapped[str]
-    gene_name : Mapped[str]
-    organism_name : Mapped[str]
-    identified_sequence_variations : Mapped[str]
-    splice_sites : Mapped[str]
-    contaminant : Mapped[str]
-    decoy : Mapped[str]
-    peptide_description : Mapped[str]
-    start_and_end_residues_in_protein : Mapped[str]
-    previous_amino_acid : Mapped[str]
-    next_amino_acid : Mapped[str]
-    theoretical_searched : Mapped[str]
-    decoy_contaminant_target : Mapped[str]
-    matched_ion_series : Mapped[str]
-    matched_ion_mass_to_charge_ratios : Mapped[str]
-    matched_ion_mass_diff_in_daltons : Mapped[str]
-    matched_ion_mass_diff_in_ppm : Mapped[str]
-    matched_ion_intensities : Mapped[str]
-    matched_ion_counts : Mapped[str]
-    normalized_spectral_angle : Mapped[str]
-    localized_scores : Mapped[str]
-    improvement_possible : Mapped[str]
-    cumulative_target : Mapped[str]
-    cumulative_decoy : Mapped[str]
-    q_value : Mapped[str]
-    cumulative_target_notch : Mapped[str]
-    cumulative_decoy_notch : Mapped[str]
-    q_value_notch : Mapped[str]
-    posterior_error_probability : Mapped[str]
-    posterior_error_probability_q_value : Mapped[str]
+    id = Column(Integer, primary_key=True)
+    file_name = Column("File Name", String(250))
+    scan_number = Column("Scan Number", String(250))
+    scan_retention_time = Column("Scan Retention Time", String(250))
+    number_of_experimental_peaks = Column("Num Experimental Peaks", String(250))
+    total_ion_current = Column("Total Ion Current", String(250))
+    precursor_scan_number = Column("Precursor Scan Number", String(250))
+    precursor_charge = Column("Precursor Charge", String(250))
+    precursor_intensity = Column("Precursor Intensity", String(250))
+    precursor_mz = Column("Precursor MZ", String(250))
+    precursor_mass = Column("Precursor Mass", String(250))
+    score = Column("Score", String(250))
+    delta_score = Column("Delta Score", String(250))
+    notch = Column("Notch", String(250))
+    base_sequence = Column("Base Sequence", String(250))
+    full_sequence = Column("Full Sequence", String(250))
+    essential_sequence = Column("Essential Sequence", String(250))
+    ambiguity_level = Column("Ambiguity Level", String(250))
+    psm_count_unambigous_less_than_one_percent_q_value = Column("PSM Count (unambiguous, <0.01 q-value)", String(250))
+    mods = Column("Mods", String(250))
+    mods_chemical_formula = Column("Mods Chemical Formulas", String(250))
+    mods_combined_chemical_formula = Column("Mods Combined Chemical Formula", String(250))
+    number_of_variable_mods = Column("Num Variable Mods", String(250))
+    missed_cleavages = Column("Missed Cleavages", String(250))
+    peptide_monoisotopic_mass = Column("Peptide Monoisotopic Mass", String(250))
+    mass_difference_in_daltons = Column("Mass Diff (Da)", String(250))
+    mass_difference_in_ppm = Column("Mass Diff (ppm)", String(250))
+    protein_accession = Column("Protein Accession", String(250))
+    protein_name = Column("Protein Name", String(250))
+    gene_name = Column("Gene Name", String(250))
+    organism_name = Column("Organism Name", String(250))
+    identified_sequence_variations = Column("Identified Sequence Variations", String(250))
+    splice_sites = Column("Splice Sites", String(250))
+    contaminant = Column("Contaminant", String(250))
+    decoy = Column("Decoy", String(250))
+    peptide_description = Column("Peptide Description", String(250))
+    start_and_end_residues_in_protein = Column("Start and End Residues In Protein", String(250))
+    previous_amino_acid = Column("Previous Amino Acid", String(250))
+    next_amino_acid = Column("Next Amino Acid", String(250))
+    theoretical_searched = Column("Theoreticals Searched", String(250))
+    decoy_contaminant_target = Column("Decoy/Contaminant/Target", String(250))
+    matched_ion_series = Column("Matched Ion Series", String(250))
+    matched_ion_mass_to_charge_ratios = Column("Matched Ion Mass-To-Charge Ratios", String(250))
+    matched_ion_mass_diff_in_daltons = Column("Matched Ion Mass Diff (Da)", String(250))
+    matched_ion_mass_diff_in_ppm = Column("Matched Ion Mass Diff (Ppm)", String(250))
+    matched_ion_intensities = Column("Matched Ion Intensities", String(250))
+    matched_ion_counts = Column("Matched Ion Counts", String(250))
+    normalized_spectral_angle = Column("Normalized Spectral Angle", String(250))
+    localized_scores = Column("Localized Scores", String(250))
+    improvement_possible = Column("Improvement Possible", String(250))
+    cumulative_target = Column("Cumulative Target", String(250))
+    cumulative_decoy = Column("Cumulative Decoy", String(250))
+    q_value = Column("QValue", String(250))
+    cumulative_target_notch = Column("Cumulative Target Notch", String(250))
+    cumulative_decoy_notch = Column("Cumulative Decoy Notch", String(250))
+    q_value_notch = Column("QValue Notch", String(250))
+    posterior_error_probability = Column("PEP", String(250))
+    posterior_error_probability_q_value = Column("PEP_QValue", String(250))
 
 
 class PolymerType(Enum):
@@ -98,71 +94,71 @@ class Polymer:
     def __str__(self) -> str:
         return f"Polymer Name: {self.polymer_name}, Polymer Type: {self.polymer_type}, Polymer Sequence: {self.polymer_sequence}"
 
-class PSM:
-    def __init__(self, row: pd.Series) -> None:
-        self.file_name = row.get("File Name")
-        self.scan_number = row.get("Scan Number")
-        self.scan_retention_time = row.get("Scan Retention Time")
-        self.number_of_experimental_peaks = row.get("Num Experimental Peaks")
-        self.total_ion_current = row.get("Total Ion Current")
-        self.precursor_scan_number = row.get("Precursor Scan Number")
-        self.precursor_charge = row.get("Precursor Charge")
-        self.precursor_intensity = row.get("Precursor Intensity")
-        self.precursor_mz = row.get("Precursor MZ")
-        self.precursor_mass = row.get("Precursor Mass")
-        self.score = row.get("Score")
-        self.delta_score = row.get("Delta Score")
-        self.notch = row.get("Notch")
-        self.base_sequence = row.get("Base Sequence")
-        self.full_sequence = row.get("Full Sequence")
-        self.essential_sequence = row.get("Essential Sequence")
-        self.ambiguity_level = row.get("Ambiguity Level")
-        self.psm_count_unambigous_less_than_one_percent_q_value = row.get("PSM Count (unambiguous, <0.01 q-value)")
-        self.mods = row.get("Mods")
-        self.mods_chemical_formula = row.get("Mods Chemical Formula")
-        self.mods_combined_chemical_formula = row.get("Mods Combined Chemical Formula")
-        self.number_of_variable_mods = row.get("Num Variable Mods")
-        self.missed_cleavages = row.get("Missed Cleavages")
-        self.peptide_monoisotopic_mass = row.get("Peptide Monoisotopic Mass")
-        self.mass_difference_in_daltons = row.get("Mass Diff (Da)")
-        self.mass_difference_in_ppm = row.get("Mass Diff (ppm)")
-        self.protein_accession = row.get("Protein Accession")
-        self.protein_name = row.get("Protein Name")
-        self.gene_name = row.get("Gene Name")
-        self.organism_name = row.get("Organism Name")
-        self.identified_sequence_variations = row.get("Identified Sequence Variations")
-        self.splice_sites = row.get("Splice Sites")
-        self.contaminant = row.get("Contaminant")
-        self.decoy = row.get("Decoy")
-        self.peptide_description = row.get("Peptide Description")
-        self.start_and_end_residues_in_protein = row.get("Start and End Residues in Protein")
-        self.previous_amino_acid = row.get("Previous Amino Acid")
-        self.next_amino_acid = row.get("Next Amino Acid")
-        self.theoretical_searched = row.get("Theoretical Searched")
-        self.decoy_contaminant_target = row.get("Decoy/Contaminant/Target")
-        self.matched_ion_series = row.get("Matched Ion Series")
-        self.matched_ion_mass_to_charge_ratios = row.get("Matched Ion Mass-To-Charge Ratios")
-        self.matched_ion_mass_diff_in_daltons = row.get("Matched Ion Mass Diff (Da)")
-        self.matched_ion_mass_diff_in_ppm = row.get("Matched Ion Mass Diff (Ppm)")
-        self.matched_ion_intensities = row.get("Matched Ion Intensities")
-        self.matched_ion_counts = row.get("Matched Ion Counts")
-        self.normalized_spectral_angle = row.get("Normalized Spectral Angle")
-        self.localized_scores = row.get("Localized Scores")
-        self.improvement_possible = row.get("Improvement Possible")
-        self.cumulative_target = row.get("Cumulative Target")
-        self.cumulative_decoy = row.get("Cumulative Decoy")
-        self.q_value = row.get("QValue")
-        self.cumulative_target_notch = row.get("Cumulative Target Notch")
-        self.cumulative_decoy_notch = row.get("Cumulative Decoy Notch")
-        self.q_value_notch = row.get("QValue Notch")
-        self.posterior_error_probability = row.get("PEP")
-        self.posterior_error_probability_q_value = row.get("PEP_QValue")
+# class PSM:
+#     def __init__(self, row: pd.Series) -> None:
+#         self.file_name = row.get("File Name")
+#         self.scan_number = row.get("Scan Number")
+#         self.scan_retention_time = row.get("Scan Retention Time")
+#         self.number_of_experimental_peaks = row.get("Num Experimental Peaks")
+#         self.total_ion_current = row.get("Total Ion Current")
+#         self.precursor_scan_number = row.get("Precursor Scan Number")
+#         self.precursor_charge = row.get("Precursor Charge")
+#         self.precursor_intensity = row.get("Precursor Intensity")
+#         self.precursor_mz = row.get("Precursor MZ")
+#         self.precursor_mass = row.get("Precursor Mass")
+#         self.score = row.get("Score")
+#         self.delta_score = row.get("Delta Score")
+#         self.notch = row.get("Notch")
+#         self.base_sequence = row.get("Base Sequence")
+#         self.full_sequence = row.get("Full Sequence")
+#         self.essential_sequence = row.get("Essential Sequence")
+#         self.ambiguity_level = row.get("Ambiguity Level")
+#         self.psm_count_unambigous_less_than_one_percent_q_value = row.get("PSM Count (unambiguous, <0.01 q-value)")
+#         self.mods = row.get("Mods")
+#         self.mods_chemical_formula = row.get("Mods Chemical Formula")
+#         self.mods_combined_chemical_formula = row.get("Mods Combined Chemical Formula")
+#         self.number_of_variable_mods = row.get("Num Variable Mods")
+#         self.missed_cleavages = row.get("Missed Cleavages")
+#         self.peptide_monoisotopic_mass = row.get("Peptide Monoisotopic Mass")
+#         self.mass_difference_in_daltons = row.get("Mass Diff (Da)")
+#         self.mass_difference_in_ppm = row.get("Mass Diff (ppm)")
+#         self.protein_accession = row.get("Protein Accession")
+#         self.protein_name = row.get("Protein Name")
+#         self.gene_name = row.get("Gene Name")
+#         self.organism_name = row.get("Organism Name")
+#         self.identified_sequence_variations = row.get("Identified Sequence Variations")
+#         self.splice_sites = row.get("Splice Sites")
+#         self.contaminant = row.get("Contaminant")
+#         self.decoy = row.get("Decoy")
+#         self.peptide_description = row.get("Peptide Description")
+#         self.start_and_end_residues_in_protein = row.get("Start and End Residues in Protein")
+#         self.previous_amino_acid = row.get("Previous Amino Acid")
+#         self.next_amino_acid = row.get("Next Amino Acid")
+#         self.theoretical_searched = row.get("Theoretical Searched")
+#         self.decoy_contaminant_target = row.get("Decoy/Contaminant/Target")
+#         self.matched_ion_series = row.get("Matched Ion Series")
+#         self.matched_ion_mass_to_charge_ratios = row.get("Matched Ion Mass-To-Charge Ratios")
+#         self.matched_ion_mass_diff_in_daltons = row.get("Matched Ion Mass Diff (Da)")
+#         self.matched_ion_mass_diff_in_ppm = row.get("Matched Ion Mass Diff (Ppm)")
+#         self.matched_ion_intensities = row.get("Matched Ion Intensities")
+#         self.matched_ion_counts = row.get("Matched Ion Counts")
+#         self.normalized_spectral_angle = row.get("Normalized Spectral Angle")
+#         self.localized_scores = row.get("Localized Scores")
+#         self.improvement_possible = row.get("Improvement Possible")
+#         self.cumulative_target = row.get("Cumulative Target")
+#         self.cumulative_decoy = row.get("Cumulative Decoy")
+#         self.q_value = row.get("QValue")
+#         self.cumulative_target_notch = row.get("Cumulative Target Notch")
+#         self.cumulative_decoy_notch = row.get("Cumulative Decoy Notch")
+#         self.q_value_notch = row.get("QValue Notch")
+#         self.posterior_error_probability = row.get("PEP")
+#         self.posterior_error_probability_q_value = row.get("PEP_QValue")
 
-    @staticmethod
-    def get_all_psms(path:str) -> List:
-        all_psms_dataframe = pd.read_csv(os.path.join(path), sep="\t")
-        rows = all_psms_dataframe.to_dict(orient='records')
-        return [PSM(row) for row in rows]
+#     @staticmethod
+#     def get_all_psms(path:str) -> List:
+#         all_psms_dataframe = pd.read_csv(os.path.join(path), sep="\t")
+#         rows = all_psms_dataframe.to_dict(orient='records')
+#         return [PSM(row) for row in rows]
     
 class QuantifiedPeak:
     def __init__(self, row:pd.Series):
@@ -299,4 +295,19 @@ class Plot:
         number_of_distinct_full_sequences = {psm.full_sequence for psm in psms}
         return matplotlib.container.BarContainer(len(number_of_distinct_full_sequences), width=1, linewidth=0.7, label=label)
 
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Visualize your results")
+
+    parser.add_argument("search_task_directory",
+                        metavar='search_task_dir',
+                        type=str,
+                        help="enter the search task directory path")
+
+    args = parser.parse_args()
+    directory = args.search_task_directory
+    df = pd.read_csv(os.path.join(directory, "AllPeptides.psmtsv"), sep="\t")
+    df = df.rename_axis("id").reset_index()
+    df.to_sql(con=database, name=PSM.__tablename__, if_exists="append", index=True)
     
+    results = session.query(PSM).limit(10).all()
+    print(results)
