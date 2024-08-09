@@ -10,6 +10,7 @@ import os
 import sqlalchemy as sa
 from sqlalchemy.orm import Mapped, mapped_column, sessionmaker, declarative_base
 import argparse
+from Objects import PSM, QuantifiedPeak
 
 database = sa.create_engine('sqlite:///:memory:')
 Session = sessionmaker(bind=database)
@@ -140,6 +141,13 @@ class Plot:
         number_of_distinct_full_sequences = {psm.full_sequence for psm in psms}
         return matplotlib.container.BarContainer(len(number_of_distinct_full_sequences), width=1, linewidth=0.7, label=label)
 
+def charge_state_distribution(charge_states:List[int]) -> None:
+    fig, ax = plt.subplots()
+
+    ax.hist(charge_states)
+    # ax.title = "Precursor Charge Distribution"
+    plt.show()
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Visualize your results")
 
@@ -154,5 +162,5 @@ if __name__ == "__main__":
     df = df.rename_axis("id").reset_index()
     df.to_sql(con=database, name=PSM.__tablename__, if_exists="append", index=True)
     
-    results = session.query(PSM).limit(10).all()
-    print(results)
+    results = session.query(PSM).all()
+    charge_state_distribution([i.precursor_charge for i in results])
