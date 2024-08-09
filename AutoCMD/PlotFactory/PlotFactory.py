@@ -7,6 +7,82 @@ import matplotlib
 import matplotlib.pyplot as plt
 from enum import Enum
 import os
+import sqlalchemy as sa
+from sqlalchemy.orm import Mapped, mapped_column, sessionmaker, declarative_base
+import argparse
+
+parser = argparse.ArgumentParser(description="Visualize your results")
+
+parser.add_argument("search_task_directory", metavar="search_task_directory", type=str, help="enter the search task directory path")
+args = parser.parse_args()
+
+
+database = sa.create_engine('sqlite:///:memory:')
+Session = sessionmaker(bind=database)
+Base = declarative_base
+
+class PSM(Base):
+    __tablename__ = "psms"
+
+    id : Mapped[int] = mapped_column(primary_key=True)
+    file_name : Mapped[str]
+    scan_number : Mapped[str]
+    scan_retention_time : Mapped[str]
+    number_of_experimental_peaks : Mapped[str]
+    total_ion_current : Mapped[str]
+    precursor_scan_number : Mapped[str]
+    precursor_charge : Mapped[str]
+    precursor_intensity : Mapped[str]
+    precursor_mz : Mapped[str]
+    precursor_mass : Mapped[str]
+    score : Mapped[str]
+    delta_score : Mapped[str]
+    notch : Mapped[str]
+    base_sequence : Mapped[str]
+    full_sequence : Mapped[str]
+    essential_sequence : Mapped[str]
+    ambiguity_level : Mapped[str]
+    psm_count_unambigous_less_than_one_percent_q_value : Mapped[str]
+    mods : Mapped[str]
+    mods_chemical_formula : Mapped[str]
+    mods_combined_chemical_formula : Mapped[str]
+    number_of_variable_mods : Mapped[str]
+    missed_cleavages : Mapped[str]
+    peptide_monoisotopic_mass : Mapped[str]
+    mass_difference_in_daltons : Mapped[str]
+    mass_difference_in_ppm : Mapped[str]
+    protein_accession : Mapped[str]
+    protein_name : Mapped[str]
+    gene_name : Mapped[str]
+    organism_name : Mapped[str]
+    identified_sequence_variations : Mapped[str]
+    splice_sites : Mapped[str]
+    contaminant : Mapped[str]
+    decoy : Mapped[str]
+    peptide_description : Mapped[str]
+    start_and_end_residues_in_protein : Mapped[str]
+    previous_amino_acid : Mapped[str]
+    next_amino_acid : Mapped[str]
+    theoretical_searched : Mapped[str]
+    decoy_contaminant_target : Mapped[str]
+    matched_ion_series : Mapped[str]
+    matched_ion_mass_to_charge_ratios : Mapped[str]
+    matched_ion_mass_diff_in_daltons : Mapped[str]
+    matched_ion_mass_diff_in_ppm : Mapped[str]
+    matched_ion_intensities : Mapped[str]
+    matched_ion_counts : Mapped[str]
+    normalized_spectral_angle : Mapped[str]
+    localized_scores : Mapped[str]
+    improvement_possible : Mapped[str]
+    cumulative_target : Mapped[str]
+    cumulative_decoy : Mapped[str]
+    q_value : Mapped[str]
+    cumulative_target_notch : Mapped[str]
+    cumulative_decoy_notch : Mapped[str]
+    q_value_notch : Mapped[str]
+    posterior_error_probability : Mapped[str]
+    posterior_error_probability_q_value : Mapped[str]
+
 
 class PolymerType(Enum):
     Peptide = 1
@@ -223,3 +299,4 @@ class Plot:
         number_of_distinct_full_sequences = {psm.full_sequence for psm in psms}
         return matplotlib.container.BarContainer(len(number_of_distinct_full_sequences), width=1, linewidth=0.7, label=label)
 
+    
