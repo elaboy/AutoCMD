@@ -1,17 +1,11 @@
 from typing import List
-import matplotlib.container
-import matplotlib.figure
 import pandas as pd
-import numpy as np
-import matplotlib
 import matplotlib.pyplot as plt
-from enum import Enum
 import os
-import sqlalchemy as sa
-from sqlalchemy.orm import Mapped, mapped_column, sessionmaker, declarative_base
 import argparse
 from Objects import database, session, PSM
-
+from pipe import *
+from utils import *
 
 def charge_state_distribution(charge_states:List[int]) -> None:
     fig, ax = plt.subplots()
@@ -40,24 +34,33 @@ if __name__ == "__main__":
                         type=str,
                         help="list the labels for each dataset in the same order")
     
-    parser.add_argument("--in_memory",
-                        metavar="in_memory",
-                        type=str,
-                        help="Indicateds if the database will be in memory or it should be saved. Y for in memory, N for saving")
+    # parser.add_argument("--in_memory",
+    #                     metavar="in_memory",
+    #                     type=str,
+    #                     help="Indicateds if the database will be in memory or it should be saved. Y for in memory, N for saving")
     
     # parse the arguments
     args = parser.parse_args()
     
     # save as variables
-    directories = parser.search_task_directories
-    labels = parser.labels
+    directories = args.search_task_directories
+    labels = args.labels
 
-    df = pd.read_csv(os.path.join(directory, "AllPeptides.psmtsv"), sep="\t")
-    df = df.rename_axis("id").reset_index()
-    df.to_sql(con=database, name=PSM.__tablename__, if_exists="append", index=True)
-    
-    results = session.query(PSM).all()
-    charge_state_distribution([i.precursor_charge for i in results])
-    charge_state_distribution([i.precursor_charge for i in results])
-    
+    #inputs for analysis
+    analysis_to_do = input("""
+    Type the analysis to be made (the integer) and press the Enter key: \n
+        0 -> all analysis
+        1 -> charge state distributions
+    """)
+
+    match analysis_to_do:
+        case "1":
+            print("crunching numbers for you :) ...")
+            dataframes = get_dataframes(directories)
+            setup_databases(dataframes=dataframes, 
+                            results_type=[ResultType.AllPeptides]*len(dataframes), 
+                            if_exists=["append"]*len(dataframes),
+                            index=[True]*len(dataframes))
+            results = get_PSM_filtered_data(ambiguity_level="1", q_value_threshold=0.01, pep_threshold=0.5, pep_q_value_threshold=0.01)
+            charge_state_distributions(data = results, labels = labels)
     plt.show()
