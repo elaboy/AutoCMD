@@ -146,21 +146,45 @@ def charge_state_distribution(charge_states:List[int]) -> None:
 
     ax.hist(charge_states)
     # ax.title = "Precursor Charge Distribution"
-    plt.show()
+
+def pairwise_charge_state_distribution(charge_states_one:List[int], charge_states_two:List[int]) -> None:
+    fig, ax = plt.subplots()
+
+    ax.hist(charge_states_one)
+    ax.hist(charge_states_two)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Visualize your results")
 
-    parser.add_argument("search_task_directory",
-                        metavar='search_task_dir',
+    parser.add_argument("--search_task_directory_one",
+                        metavar='search_task_directory_one',
                         type=str,
                         help="enter the search task directory path")
+    
+    parser.add_argument("--search_task_one_name",
+                        metavar="search_task_one_name",
+                        type=str,
+                        help="Name to identify all first results with")
+    
+    parser.add_argument("--search_task_directory_two",
+                        metavar="search_task_directory_two",
+                        type=str,
+                        help="search directory for the second search task")
+    
+    parser.add_argument("--search_task_two_name",
+                        metavar="search_task_two_name",
+                        type=str,
+                        help="Name to identify all second results with")
 
     args = parser.parse_args()
-    directory = args.search_task_directory
+    directory = args.search_task_directory_one
+
     df = pd.read_csv(os.path.join(directory, "AllPeptides.psmtsv"), sep="\t")
     df = df.rename_axis("id").reset_index()
     df.to_sql(con=database, name=PSM.__tablename__, if_exists="append", index=True)
     
     results = session.query(PSM).all()
     charge_state_distribution([i.precursor_charge for i in results])
+    charge_state_distribution([i.precursor_charge for i in results])
+    
+    plt.show()
