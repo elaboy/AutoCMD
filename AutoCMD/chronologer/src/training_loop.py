@@ -7,7 +7,7 @@ import torch
 from torch.utils.data import DataLoader, RandomSampler
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 
-from encyclopydia.src.utils import timer
+from chronologer.src.utils import timer
 
 def train_model( model, 
                  datasets, 
