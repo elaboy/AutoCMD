@@ -1,6 +1,7 @@
 import sqlalchemy as sa
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy import Column, Integer, String, Float, Boolean
+from typing import List, Self
 
 database = sa.create_engine('sqlite:///:memory:')
 Session = sessionmaker(bind=database)
@@ -68,6 +69,7 @@ class PSM(Base):
     q_value_notch = Column("QValue Notch", Float)
     posterior_error_probability = Column("PEP", Float)
     posterior_error_probability_q_value = Column("PEP_QValue", Float)
+
 
 class QuantifiedPeak(Base):
     __tablename__ = "quantified_peaks"
