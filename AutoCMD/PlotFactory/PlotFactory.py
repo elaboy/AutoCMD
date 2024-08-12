@@ -10,12 +10,8 @@ import os
 import sqlalchemy as sa
 from sqlalchemy.orm import Mapped, mapped_column, sessionmaker, declarative_base
 import argparse
-from Objects import PSM, QuantifiedPeak
+from Objects import database, session, PSM
 
-database = sa.create_engine('sqlite:///:memory:')
-Session = sessionmaker(bind=database)
-session = Session()
-Base = declarative_base()
 
 def charge_state_distribution(charge_states:List[int]) -> None:
     fig, ax = plt.subplots()
