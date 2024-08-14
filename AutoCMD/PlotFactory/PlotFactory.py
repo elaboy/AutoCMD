@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 import argparse
-from Objects import database, session, PSM
+from Objects import engine, session, PSM
 from pipe import *
 from utils import *
 
@@ -55,15 +55,16 @@ if __name__ == "__main__":
             
             dataframes = get_dataframes(directories)
             
-            setup_databases(dataframes=dataframes, 
-                            results_type=[ResultType.AllPeptides]*len(dataframes), 
-                            if_exists=["append"]*len(dataframes),
-                            index=[True]*len(dataframes))
+            setup_database(dataframe=dataframes[0], 
+                            result_type=ResultType.AllPeptides, 
+                            if_exists="append",
+                            index=True)
             
-            results = get_PSM_filtered_data(ambiguity_level="1", 
-                                            q_value_threshold=0.01, 
-                                            pep_threshold=0.5, 
-                                            pep_q_value_threshold=0.01)
+            print(len(session.query(PSM).all()))
+            # results = get_PSM_filtered_data(ambiguity_level="1", 
+            #                                 q_value_threshold=0.01, 
+            #                                 pep_threshold=0.5, 
+            #                                 pep_q_value_threshold=0.01)
             
-            charge_state_distributions(data = results, labels = labels)
+            # charge_state_distributions(data = results, labels = labels)
     plt.show()

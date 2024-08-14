@@ -3,9 +3,14 @@ from Objects import PSM
 import matplotlib.pyplot as plt
 import pandas as pd
 import chronologer.Predict_RT
+from Objects import session
 
-def charge_state_distributions(data:List[List[PSM]], labels:List[str]) -> None:
+def charge_state_distributions(data, labels:List[str]) -> None:
     fig, ax = plt.subplots()
+
+    for i in data:
+        print(i)
+        break
 
     for index in len(data):
         charge_states = []
@@ -16,6 +21,6 @@ def charge_state_distributions(data:List[List[PSM]], labels:List[str]) -> None:
     plt.legend()
     return None
 
-def get_chronologer_HI(full_sequences:List[str]) -> pd.DataFrame:
-    df = chronologer.Predict_RT.predict_HI(full_sequences)
-    return df 
+# def get_chronologer_HI(full_sequences:List[str]) -> pd.DataFrame:
+#     df = chronologer.Predict_RT.predict_HI(full_sequences)
+#     return df 

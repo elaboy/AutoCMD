@@ -1,17 +1,25 @@
 import sqlalchemy as sa
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy import Column, Integer, String, Float, Boolean
 from typing import List, Self
+from sqlalchemy.pool import StaticPool
 
-database = sa.create_engine('sqlite:///:memory:')
-Session = sessionmaker(bind=database)
+engine = create_engine(
+    "sqlite://", 
+    connect_args={"check_same_thread": False}, 
+    poolclass=StaticPool
+)
+Session = sessionmaker(bind=engine)
 session = Session()
+
 Base = declarative_base()
+Base.metadata.create_all(engine)
 
 class PSM(Base):
     __tablename__ = "psms"
 
-    id = Column(Integer, primary_key=True)
+    id = Column("id", Integer, primary_key=True)
     file_name = Column("File Name", String(250))
     scan_number = Column("Scan Number", Integer)
     scan_retention_time = Column("Scan Retention Time", Float)
