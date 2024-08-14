@@ -55,10 +55,10 @@ if __name__ == "__main__":
             
             dataframes = get_dataframes(directories)
             
-            setup_database(dataframe=dataframes[0], 
-                            result_type=ResultType.AllPeptides, 
-                            if_exists="append",
-                            index=True)
+            setup_databases(dataframes=dataframes, 
+                            results_type=[ResultType.AllPeptides]*len(dataframes), 
+                            if_exists=["append"]*len(dataframes),
+                            index=[True]*len(dataframes))
             
             print(len(session.query(PSM).all()))
             # results = get_PSM_filtered_data(ambiguity_level="1", 

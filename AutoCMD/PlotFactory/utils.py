@@ -28,6 +28,7 @@ def get_result_type(result_type: ResultType) -> str:
 def reader(path:str) -> pd.DataFrame:
     return pd.read_csv(path, sep="\t", low_memory=False)
 
+#TODO: address mismatch in column size
 def get_dataframes(paths:List[str]) -> List[pd.DataFrame]:
 
     if len(paths) > mp.cpu_count() -1:
@@ -39,6 +40,13 @@ def get_dataframes(paths:List[str]) -> List[pd.DataFrame]:
     
     for df in df_list:
         df = df.rename_axis("id")
+
+        # old MM version does not offer this feature, so will initialize the column to zeros as placeholder
+        if "Precursor Intensity" in df:
+            print("Dataframe check: Pass")
+        else:
+            print("Dataframe check: Failed, looks like an old MM version. Fixing...")
+            df["Precursor Intensity"] = [0]
 
     return df_list
 
