@@ -2,7 +2,7 @@ from typing import List
 from Objects import PSM
 import matplotlib.pyplot as plt
 import pandas as pd
-from chronologer.Predict_RT import predict_HI
+import chronologer.Predict_RT
 
 def charge_state_distributions(data:List[List[PSM]], labels:List[str]) -> None:
     fig, ax = plt.subplots()
@@ -17,5 +17,5 @@ def charge_state_distributions(data:List[List[PSM]], labels:List[str]) -> None:
     return None
 
 def get_chronologer_HI(full_sequences:List[str]) -> pd.DataFrame:
-    df = predict_HI(full_sequences)
+    df = chronologer.Predict_RT.predict_HI(full_sequences)
     return df 

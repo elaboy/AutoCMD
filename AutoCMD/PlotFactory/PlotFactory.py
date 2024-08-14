@@ -13,7 +13,8 @@ def charge_state_distribution(charge_states:List[int]) -> None:
     ax.hist(charge_states)
     # ax.title = "Precursor Charge Distribution"
 
-def pairwise_charge_state_distribution(charge_states_one:List[int], charge_states_two:List[int]) -> None:
+def pairwise_charge_state_distribution(charge_states_one:List[int],
+                                       charge_states_two:List[int]) -> None:
     fig, ax = plt.subplots()
 
     ax.hist(charge_states_one)
@@ -34,11 +35,6 @@ if __name__ == "__main__":
                         type=str,
                         help="list the labels for each dataset in the same order")
     
-    # parser.add_argument("--in_memory",
-    #                     metavar="in_memory",
-    #                     type=str,
-    #                     help="Indicateds if the database will be in memory or it should be saved. Y for in memory, N for saving")
-    
     # parse the arguments
     args = parser.parse_args()
     
@@ -56,11 +52,18 @@ if __name__ == "__main__":
     match analysis_to_do:
         case "1":
             print("crunching numbers for you :) ...")
+            
             dataframes = get_dataframes(directories)
+            
             setup_databases(dataframes=dataframes, 
                             results_type=[ResultType.AllPeptides]*len(dataframes), 
                             if_exists=["append"]*len(dataframes),
                             index=[True]*len(dataframes))
-            results = get_PSM_filtered_data(ambiguity_level="1", q_value_threshold=0.01, pep_threshold=0.5, pep_q_value_threshold=0.01)
+            
+            results = get_PSM_filtered_data(ambiguity_level="1", 
+                                            q_value_threshold=0.01, 
+                                            pep_threshold=0.5, 
+                                            pep_q_value_threshold=0.01)
+            
             charge_state_distributions(data = results, labels = labels)
     plt.show()

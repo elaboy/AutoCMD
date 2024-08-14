@@ -46,7 +46,8 @@ def setup_database(dataframe:pd.DataFrame, result_type:ResultType, if_exists="ap
     dataframe.to_sql(con=database, name=get_result_type(result_type), if_exists=if_exists, index=index)
     return None
 
-def setup_databases(dataframes:List[pd.DataFrame], results_type:List[ResultType], if_exists:List[str], index:List[Boolean]) -> None:
+def setup_databases(dataframes:List[pd.DataFrame], results_type:List[ResultType],
+                     if_exists:List[str], index:List[Boolean]) -> None:
     if len(dataframes) > mp.cpu_count() - 1:
         pool = Pool(mp.cpu_count() - 1)
     else:
@@ -59,12 +60,12 @@ def setup_databases(dataframes:List[pd.DataFrame], results_type:List[ResultType]
 def get_PSM_filtered_data(ambiguity_level:str, q_value_threshold:float,
               pep_threshold:float, pep_q_value_threshold:float) -> List[List[PSM]]:
     
-    results = session.query(PSM).where(PSM.ambiguity_level == ambiguity_level, 
-                                         PSM.q_value <= q_value_threshold,
-                                         PSM.posterior_error_probability <= pep_threshold,
-                                         PSM.posterior_error_probability_q_value <= pep_q_value_threshold)
+    # results = session.query(PSM).filter(PSM.ambiguity_level == ambiguity_level, 
+    #                                      PSM.q_value <= q_value_threshold,
+    #                                      PSM.posterior_error_probability <= pep_threshold,
+    #                                      PSM.posterior_error_probability_q_value <= pep_q_value_threshold).all()
 
-    return results
+    return session.get(PSM)
 
 #TODO: method to predict HI from full sequences using chronologer
 

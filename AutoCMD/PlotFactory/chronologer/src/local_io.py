@@ -44,6 +44,18 @@ def read_rt_database( db_loc, chronologer_compatible_only=True, ):
                 ( [ p.count('[') == 0 for p in df.CodedPeptideSeq ] ) ]
     return df
 
+def read_in_memory_rt_database( df:pd.DataFrame, chronologer_compatible_only=True, ):
+    patch_modseqs_with_cyclo_N_term( df )
+    patch_modseqs_with_N_acetyl( df )
+    coded_seqs = [ modseq_to_codedseq( p ) for p in df.PeptideModSeq ]
+    df['CodedPeptideSeq'] = [ c_seq if c_seq else np.nan for c_seq in coded_seqs ]
+    if chronologer_compatible_only:
+        df = df.dropna() # Drop any entries that do not produce a compatible coded seq
+        df['PeptideLength'] = [ len(p)-2 for p in df.CodedPeptideSeq ]
+        df = df[ ( df.PeptideLength.between( constants.min_peptide_len, 
+                                             constants.max_peptide_len, ) ) &
+                ( [ p.count('[') == 0 for p in df.CodedPeptideSeq ] ) ]
+    return df
 
 def read_table( sqlite_file, table_name ):
     con = sqlite3.connect( sqlite_file )
