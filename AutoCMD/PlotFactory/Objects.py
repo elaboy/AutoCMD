@@ -77,6 +77,7 @@ class PSM(Base):
     q_value_notch = Column("QValue Notch", Float)
     posterior_error_probability = Column("PEP", Float)
     posterior_error_probability_q_value = Column("PEP_QValue", Float)
+    label = Column("Label", String(250))
 
 
 class QuantifiedPeak(Base):

@@ -4,23 +4,17 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import chronologer.Predict_RT
 from Objects import session
+import itertools
 
-def charge_state_distributions(data, labels:List[str]) -> None:
+def charge_state_distributions(results:List[PSM], labels:List[str]) -> None:
     fig, ax = plt.subplots()
 
-    for i in data:
-        print(i)
-        break
+    data = []
+    for label in labels:
+        data.append([int(psm.precursor_charge) for psm in results if psm.label == label])
 
-    for index in len(data):
-        charge_states = []
-        for i in data[index]:
-            charge_states.append(i.precursor_charge)
-        ax.hist(charge_states, label=labels[index])
-    
+    for idx, label in enumerate(labels):
+        ax.hist(data[idx], label = label)
+
     plt.legend()
     return None
-
-# def get_chronologer_HI(full_sequences:List[str]) -> pd.DataFrame:
-#     df = chronologer.Predict_RT.predict_HI(full_sequences)
-#     return df 

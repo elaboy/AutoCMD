@@ -49,22 +49,24 @@ if __name__ == "__main__":
         1 -> charge state distributions
     """)
 
+    # TODO: make a method for all analysis to run them in a Pool
+
     match analysis_to_do:
         case "1":
             print("crunching numbers for you :) ...")
             
-            dataframes = get_dataframes(directories)
+            dataframes = get_dataframes(directories, labels)
             
             setup_databases(dataframes=dataframes, 
                             results_type=[ResultType.AllPeptides]*len(dataframes), 
                             if_exists=["append"]*len(dataframes),
                             index=[True]*len(dataframes))
             
-            print(len(session.query(PSM).all()))
-            # results = get_PSM_filtered_data(ambiguity_level="1", 
-            #                                 q_value_threshold=0.01, 
-            #                                 pep_threshold=0.5, 
-            #                                 pep_q_value_threshold=0.01)
+            # TODO:sanity check step to catch potential errors early
+            results = get_PSM_filtered_data(ambiguity_level="1", 
+                                            q_value_threshold=0.01, 
+                                            pep_threshold=0.5, 
+                                            pep_q_value_threshold=0.01)
             
-            # charge_state_distributions(data = results, labels = labels)
+            charge_state_distributions(results, labels = labels)
     plt.show()
