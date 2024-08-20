@@ -9,9 +9,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="mzLib" Version="2.0.1" />
     <PackageReference Include="TorchSharp" Version="0.101.2" />
     <PackageReference Include="TorchSharp-cpu" Version="0.101.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\mzLib-Fork\mzLib\BayesianEstimation\BayesianEstimation.csproj" />
+    <ProjectReference Include="..\..\..\mzLib-Fork\mzLib\Chemistry\Chemistry.csproj" />
+    <ProjectReference Include="..\..\..\mzLib-Fork\mzLib\FlashLFQ\FlashLFQ.csproj" />
+    <ProjectReference Include="..\..\..\mzLib-Fork\mzLib\MassSpectrometry\MassSpectrometry.csproj" />
+    <ProjectReference Include="..\..\..\mzLib-Fork\mzLib\MzIdentML\MzIdentML.csproj" />
+    <ProjectReference Include="..\..\..\mzLib-Fork\mzLib\MzLibUtil\MzLibUtil.csproj" />
+    <ProjectReference Include="..\..\..\mzLib-Fork\mzLib\mzPlot\mzPlot.csproj" />
+    <ProjectReference Include="..\..\..\mzLib-Fork\mzLib\Omics\Omics.csproj" />
+    <ProjectReference Include="..\..\..\mzLib-Fork\mzLib\PepXML\PepXML.csproj" />
+    <ProjectReference Include="..\..\..\mzLib-Fork\mzLib\Proteomics\Proteomics.csproj" />
+    <ProjectReference Include="..\..\..\mzLib-Fork\mzLib\Readers\Readers.csproj" />
+    <ProjectReference Include="..\..\..\mzLib-Fork\mzLib\SpectralAveraging\SpectralAveraging.csproj" />
+    <ProjectReference Include="..\..\..\mzLib-Fork\mzLib\Transcriptomics\Transcriptomics.csproj" />
+    <ProjectReference Include="..\..\..\mzLib-Fork\mzLib\UsefulProteomicsDatabases\UsefulProteomicsDatabases.csproj" />
   </ItemGroup>
 
 </Project>
